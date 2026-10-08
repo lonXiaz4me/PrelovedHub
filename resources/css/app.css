@@ -1,3 +1,91 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../../app/Http/Controllers/*.php';
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+
+  --color-canvas: #f7f5ef;
+  --color-cream: #fffdf7;
+  --color-ink: #1c2922;
+  --color-muted: #68736d;
+  --color-line: #dedfd8;
+  --color-stone: #e8e7e0;
+  --color-forest: #214d3c;
+  --color-sage: #cde0b9;
+  --color-coral: #e96f51;
+  --color-coral-dark: #c95439;
+  --color-coral-soft: #f8d7cd;
+  --color-gold-soft: #eddfae;
+  --color-blue-soft: #d3e3e8;
+  --color-lilac-soft: #e3d9e8;
+  --color-mint-soft: #d7e8db;
+
+  --radius-card: 1.25rem;
+  --radius-hero: 1.75rem;
+
+  --shadow-soft: 0 1.25rem 3.5rem rgb(12 36 27 / 0.18);
+  --shadow-sell: 0 0.75rem 1.75rem rgb(233 111 81 / 0.35);
+
+  /* layout sizes, named the way Tailwind v4 expects (container-* for max-w, spacing-* for w/h/top/size) */
+  --container-shell: 90rem;
+  --container-search: 38rem;
+  --container-hero-copy: 39rem;
+  --spacing-sidebar: 15rem;
+  --spacing-header: 5rem;
+  --spacing-content: calc(100vh - 5rem);
+  --spacing-hero-orb: 25rem;
+
+  --text-hero: 3.4rem;
+  --text-hero-mobile: 2.35rem;
+  --text-section: 2rem;
+  --text-tiny: 0.625rem;
+  --tracking-label: 0.16em;
+  --aspect-card: 4 / 5;
+}
+
+@layer base {
+  [x-cloak] {
+    display: none !important;
+  }
+
+  body {
+    min-width: 20rem;
+    min-height: 100vh;
+    background: var(--color-canvas);
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  img {
+    display: block;
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
