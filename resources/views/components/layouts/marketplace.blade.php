@@ -1,11 +1,17 @@
 @props(['title' => null])
 
 @php
+    // Link to a named route if it exists yet, otherwise "#". Lets us add pages one step at a time.
+    $to = fn (string $name) => \Illuminate\Support\Facades\Route::has($name) ? route($name) : '#';
+    $settingsUrl = \Illuminate\Support\Facades\Route::has('settings')
+        ? route('settings')
+        : (auth()->check() ? route('profile.edit') : route('login'));
+
     $nav = [
         ['Discover', 'home', route('home'), request()->routeIs('home')],
-        ['Browse & filter', 'filter', '#', false],
-        ['My shop', 'user', '#', false],
-        ['Settings', 'settings', auth()->check() ? route('profile.edit') : route('login'), request()->routeIs('profile.*')],
+        ['Browse & filter', 'filter', $to('browse'), request()->routeIs('browse')],
+        ['My shop', 'user', $to('shop'), request()->routeIs('shop*')],
+        ['Settings', 'settings', $settingsUrl, request()->routeIs('settings', 'profile.*')],
     ];
 @endphp
 <!DOCTYPE html>
@@ -26,15 +32,16 @@
 
     {{-- Header --}}
     <header class="sticky top-0 z-40 border-b border-line bg-canvas/95 backdrop-blur">
-        <div class="mx-auto flex max-w-shell items-center gap-5 px-5 py-4 lg:px-8">
+        <div class="mx-auto flex max-w-shell items-center gap-3 px-4 py-3 sm:gap-5 sm:px-5 sm:py-4 lg:px-8">
             <a href="{{ route('home') }}" class="flex shrink-0 items-center gap-2.5">
-                <span class="flex size-9 items-center justify-center rounded-xl bg-forest text-cream">
-                    <x-icon name="sparkle" class="size-5" />
+                <span class="flex size-8 items-center justify-center rounded-xl bg-forest text-cream sm:size-9">
+                    <x-icon name="sparkle" class="size-4.5 sm:size-5" />
                 </span>
-                <span class="font-display text-xl font-semibold tracking-tight">Preloved<span class="text-coral">Hub</span></span>
+                <span class="font-display text-lg font-semibold tracking-tight sm:text-xl">Preloved<span class="text-coral">Hub</span></span>
             </a>
 
-            <form method="GET" action="{{ route('home') }}" role="search" class="relative mx-auto hidden w-full max-w-search md:block">
+            <form method="GET" action="{{ $to('browse') !== '#' ? route('browse') : route('home') }}" role="search"
+                  class="relative mx-auto hidden w-full max-w-search md:block">
                 @if (request('category'))
                     <input type="hidden" name="category" value="{{ request('category') }}">
                 @endif
@@ -46,7 +53,7 @@
 
             <div class="ml-auto flex shrink-0 items-center gap-2">
                 <button type="button" aria-label="Notifications"
-                        class="relative flex size-11 items-center justify-center rounded-full border border-line bg-white transition hover:border-forest hover:text-forest">
+                        class="relative hidden size-11 items-center justify-center rounded-full border border-line bg-white transition hover:border-forest hover:text-forest sm:flex">
                     <x-icon name="bell" />
                     <span class="absolute right-2.5 top-2.5 size-2 rounded-full bg-coral ring-2 ring-white"></span>
                 </button>
@@ -62,7 +69,7 @@
                         </button>
                         <div x-show="open" x-cloak x-transition
                              class="absolute right-0 mt-2 w-48 rounded-2xl border border-line bg-white p-2 shadow-soft">
-                            <a href="{{ route('profile.edit') }}" class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-canvas">Profile</a>
+                            <a href="{{ $settingsUrl }}" class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-canvas">Settings</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="block w-full rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-canvas">Log out</button>
@@ -70,8 +77,7 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="rounded-full px-4 py-2.5 text-sm font-semibold text-forest transition hover:bg-sage/50">Log in</a>
-                    <a href="{{ route('register') }}" class="hidden rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink sm:inline-flex">Sign up</a>
+                    <x-guest-actions />
                 @endauth
             </div>
         </div>
@@ -97,7 +103,7 @@
                 </span>
                 <p class="font-display text-xl leading-tight">Give it a second story.</p>
                 <p class="mt-2 text-xs leading-relaxed text-cream/65">Clear some space and make a little extra.</p>
-                <a href="#" class="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-coral py-3 text-sm font-bold text-white transition hover:bg-coral-dark">
+                <a href="{{ $to('sell') }}" class="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-coral py-3 text-sm font-bold text-white transition hover:bg-coral-dark">
                     <x-icon name="plus" class="size-4" />
                     Sell an item
                 </a>
@@ -116,21 +122,21 @@
                 <x-icon name="home" class="{{ request()->routeIs('home') ? 'fill-current' : '' }}" />
                 <span class="text-tiny font-bold">Home</span>
             </a>
-            <a href="#" class="flex w-12 flex-col items-center gap-1 py-2 text-muted">
+            <a href="{{ $to('browse') }}" class="{{ request()->routeIs('browse') ? 'text-forest' : 'text-muted' }} flex w-12 flex-col items-center gap-1 py-2">
                 <x-icon name="filter" />
                 <span class="text-tiny font-bold">Explore</span>
             </a>
-            <a href="#" class="-mt-7 flex flex-col items-center gap-1">
+            <a href="{{ $to('sell') }}" class="-mt-7 flex flex-col items-center gap-1">
                 <span class="flex size-14 items-center justify-center rounded-full bg-coral text-white shadow-sell ring-4 ring-canvas">
                     <x-icon name="plus" class="size-6" />
                 </span>
                 <span class="text-tiny font-bold text-ink">Sell</span>
             </a>
-            <a href="#" class="flex w-12 flex-col items-center gap-1 py-2 text-muted">
-                <x-icon name="heart" />
-                <span class="text-tiny font-bold">Saved</span>
+            <a href="{{ $settingsUrl }}" class="{{ request()->routeIs('settings', 'profile.*') ? 'text-forest' : 'text-muted' }} flex w-12 flex-col items-center gap-1 py-2">
+                <x-icon name="settings" />
+                <span class="text-tiny font-bold">Settings</span>
             </a>
-            <a href="#" class="flex w-12 flex-col items-center gap-1 py-2 text-muted">
+            <a href="{{ $to('shop') }}" class="{{ request()->routeIs('shop*') ? 'text-forest' : 'text-muted' }} flex w-12 flex-col items-center gap-1 py-2">
                 <x-icon name="user" />
                 <span class="text-tiny font-bold">My shop</span>
             </a>
