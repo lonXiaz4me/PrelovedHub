@@ -1,7 +1,7 @@
 <x-layouts.marketplace title="Discover">
 
     {{-- Hero --}}
-    <div class="relative overflow-hidden rounded-hero bg-forest px-6 py-8 text-cream sm:px-10 sm:py-10">
+    <div class="relative overflow-hidden rounded-hero bg-forest px-5 py-7 text-cream sm:px-10 sm:py-10">
         <div class="relative z-10 max-w-hero-copy">
             <div class="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-sage">
                 <x-icon name="sparkle" class="size-3.5" />
@@ -20,8 +20,8 @@
             </a>
         </div>
 
-        <div class="absolute -bottom-20 -right-8 size-hero-orb rounded-full border border-white/10 bg-sage/15"></div>
-        <div class="absolute -right-6 top-6 rotate-6 rounded-3xl border border-white/15 bg-white/10 p-3 shadow-soft backdrop-blur sm:right-10">
+        <div class="absolute -bottom-20 -right-8 hidden size-hero-orb rounded-full border border-white/10 bg-sage/15 sm:block"></div>
+        <div class="absolute -right-6 top-6 hidden rotate-6 rounded-3xl border border-white/15 bg-white/10 p-3 shadow-soft backdrop-blur sm:right-10 sm:block">
             <div class="h-28 w-24 overflow-hidden rounded-2xl sm:h-36 sm:w-28">
                 <img src="{{ $featured['image'] }}" alt="A curated preloved shop display" class="h-full w-full object-cover">
             </div>
@@ -50,7 +50,8 @@
                 <p class="text-xs font-bold uppercase tracking-label text-coral">Curated for you</p>
                 <h2 class="mt-1 font-display text-section font-semibold tracking-tight">Finds worth keeping</h2>
             </div>
-            <a href="{{ route('home') }}" class="hidden items-center gap-2 text-sm font-semibold text-forest hover:text-coral sm:flex">
+            <a href="{{ \Illuminate\Support\Facades\Route::has('browse') ? route('browse') : route('home') }}"
+               class="hidden items-center gap-2 text-sm font-semibold text-forest hover:text-coral sm:flex">
                 View all <x-icon name="arrow" class="size-4" />
             </a>
         </div>
@@ -63,7 +64,8 @@
                     {{ $category }}
                 </a>
             @endforeach
-            <a href="#" class="flex shrink-0 items-center gap-2 rounded-full border border-line bg-white px-4 py-2.5 text-sm font-semibold text-muted transition hover:border-forest hover:text-forest">
+            <a href="{{ \Illuminate\Support\Facades\Route::has('browse') ? route('browse') : '#' }}"
+               class="flex shrink-0 items-center gap-2 rounded-full border border-line bg-white px-4 py-2.5 text-sm font-semibold text-muted transition hover:border-forest hover:text-forest">
                 <x-icon name="filter" class="size-4" /> Filters
             </a>
         </div>

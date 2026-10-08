@@ -5,7 +5,7 @@
         <img src="{{ $listing['image'] }}" alt="{{ $listing['title'] }}" loading="lazy"
              class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
 
-        <span class="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1.5 text-tiny font-bold text-forest shadow-sm backdrop-blur">
+        <span class="absolute left-3 top-3 hidden rounded-full bg-white/90 px-2.5 py-1.5 text-tiny font-bold text-forest shadow-sm backdrop-blur sm:inline-flex">
             {{ $listing['condition'] }}
         </span>
 
@@ -19,15 +19,15 @@
 
     <div class="pt-3">
         <div class="flex items-start justify-between gap-2">
-            <h3 class="line-clamp-1 text-sm font-semibold sm:text-base">{{ $listing['title'] }}</h3>
-            <span class="shrink-0 font-display text-lg font-bold text-forest">{{ $listing['price'] }}</span>
+            <h3 class="line-clamp-2 text-sm font-semibold sm:line-clamp-1 sm:text-base">{{ $listing['title'] }}</h3>
+            <span class="shrink-0 font-display text-base font-bold text-forest sm:text-lg">{{ $listing['price'] }}</span>
         </div>
 
-        <p class="mt-1 flex items-center gap-1 text-xs text-muted">
+        <p class="mt-1 hidden items-center gap-1 text-xs text-muted sm:flex">
             <x-icon name="pin" class="size-3" /> {{ $listing['location'] }}
         </p>
 
-        <div class="mt-3 flex items-center gap-2 border-t border-line pt-3">
+        <div class="mt-3 hidden items-center gap-2 border-t border-line pt-3 sm:flex">
             <span class="{{ $listing['accent'] }} flex size-6 items-center justify-center rounded-full text-tiny font-bold text-forest">
                 {{ $listing['initials'] }}
             </span>

@@ -1,25 +1,19 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-    </div>
+<x-layouts.auth title="Forgot password" eyebrow="Forgot password" heading="Let’s get you back in."
+                subheading="Enter your email and we’ll send you a link to choose a new password.">
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    @if (session('status'))
+        <p class="mt-6 rounded-xl bg-sage/60 px-4 py-3 text-sm font-semibold text-forest">{{ session('status') }}</p>
+    @endif
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form method="POST" action="{{ route('password.email') }}" class="mt-8 space-y-4">
         @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <x-field label="Email address" name="email" type="email" required autofocus />
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
+        <button type="submit" class="w-full rounded-full bg-forest py-3.5 text-sm font-bold text-white transition hover:bg-ink">Email reset link</button>
     </form>
-</x-guest-layout>
+
+    <p class="mt-7 text-center text-sm text-muted">
+        Remembered it? <a href="{{ route('login') }}" class="font-bold text-coral">Log in</a>
+    </p>
+</x-layouts.auth>
