@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: PHP + Apache
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 RUN apt-get update && apt-get install -y git unzip libzip-dev libpq-dev libpng-dev libonig-dev libxml2-dev \
  && docker-php-ext-install pdo_mysql pdo_pgsql zip gd mbstring bcmath opcache \
