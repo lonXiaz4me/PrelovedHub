@@ -12,14 +12,16 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * The demo account is public on purpose (it is listed in the README),
+     * so anyone trying the live site can log in without signing up.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Ana Patel',
+            'email' => 'demo@example.com',
+            'password' => 'password', // hashed automatically by the User model
         ]);
     }
 }

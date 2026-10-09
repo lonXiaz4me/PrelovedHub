@@ -1,0 +1,43 @@
+# Render Blueprint: describes the PrelovedHub web service so it can be created in one click.
+# Render builds the Dockerfile in this repo.
+services:
+  - type: web
+    name: preloved-hub
+    runtime: docker
+    plan: free
+    region: singapore
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: PrelovedHub
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      # Secret: you type these in the Render dashboard when you create the service
+      - key: APP_KEY
+        sync: false
+      # Your public address, e.g. https://preloved-hub.onrender.com
+      - key: APP_URL
+        sync: false
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_DATABASE
+        value: /data/database.sqlite
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: FILESYSTEM_DISK
+        value: local
+      - key: MAIL_MAILER
+        value: log
+      # The free tier's disk is wiped on every restart, so reseed the demo data each time
+      - key: SEED_ON_FIRST_BOOT
+        value: "true"
