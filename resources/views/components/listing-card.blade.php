@@ -5,13 +5,13 @@
         <img src="{{ $listing['image'] }}" alt="{{ $listing['title'] }}" loading="lazy"
              class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
 
-        <span class="absolute left-3 top-3 hidden rounded-full bg-white/90 px-2.5 py-1.5 text-tiny font-bold text-forest shadow-sm backdrop-blur sm:inline-flex">
-            {{ $listing['condition'] }}
+        <span class="absolute left-3 top-3 hidden rounded-full bg-surface/90 px-2.5 py-1.5 text-tiny font-bold text-brand shadow-sm backdrop-blur sm:inline-flex">
+            {{ __('shop.conditions.' . $listing['condition']) }}
         </span>
 
         <button type="button" @click="liked = !liked"
-                :aria-label="liked ? 'Remove from saved' : 'Save item'"
-                :class="liked ? 'bg-coral text-white' : 'bg-white/90 text-ink hover:text-coral'"
+                :aria-label="liked ? @js(__('Remove from saved')) : @js(__('Save item'))"
+                :class="liked ? 'bg-coral text-white' : 'bg-surface/90 text-ink hover:text-coral'"
                 class="absolute right-3 top-3 flex size-9 items-center justify-center rounded-full shadow-sm backdrop-blur transition">
             <x-icon name="heart" class="size-4.5" ::class="liked ? 'fill-current' : ''" />
         </button>
@@ -20,7 +20,7 @@
     <div class="pt-3">
         <div class="flex items-start justify-between gap-2">
             <h3 class="line-clamp-2 text-sm font-semibold sm:line-clamp-1 sm:text-base">{{ $listing['title'] }}</h3>
-            <span class="shrink-0 font-display text-base font-bold text-forest sm:text-lg">{{ $listing['price'] }}</span>
+            <span class="shrink-0 font-display text-base font-bold text-brand sm:text-lg">{{ $listing['price'] }}</span>
         </div>
 
         <p class="mt-1 hidden items-center gap-1 text-xs text-muted sm:flex">

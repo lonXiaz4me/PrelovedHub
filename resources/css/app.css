@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
 
+/* Dark mode is switched by a "dark" class on <html> (see partials/theme-init) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -26,6 +29,13 @@
   --color-blue-soft: #d3e3e8;
   --color-lilac-soft: #e3d9e8;
   --color-mint-soft: #d7e8db;
+
+  /* surface = cards, inputs, menus (white in light mode)
+     brand = green used for text/borders on the page background
+     forest-dark = hover shade for forest buttons */
+  --color-surface: #ffffff;
+  --color-brand: #214d3c;
+  --color-forest-dark: #17382b;
 
   --radius-card: 1.25rem;
   --radius-hero: 1.75rem;
@@ -84,4 +94,22 @@
 
 @utility pb-safe {
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+html {
+  color-scheme: light;
+}
+
+/* Dark theme: only the tokens that change are overridden */
+html.dark {
+  color-scheme: dark;
+
+  --color-canvas: #101714;
+  --color-surface: #18211c;
+  --color-ink: #ecf1e8;
+  --color-muted: #9aa89f;
+  --color-line: #2b3830;
+  --color-stone: #222d27;
+  --color-brand: #8fd0aa;
+  --color-forest-dark: #2b6a52;
 }
