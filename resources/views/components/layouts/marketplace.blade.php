@@ -61,23 +61,11 @@
                 </button>
 
                 @auth
-                    <div x-data="{ open: false }" @click.outside="open = false" class="relative">
-                        <button type="button" @click="open = !open"
-                                class="flex h-11 items-center gap-2 rounded-full border border-line bg-surface pl-1.5 pr-4 text-sm font-semibold transition hover:border-brand">
-                            <span class="flex size-8 items-center justify-center rounded-full bg-sage text-xs font-bold text-forest">
-                                {{ strtoupper(mb_substr(auth()->user()->name, 0, 2)) }}
-                            </span>
-                            <span class="hidden max-w-32 truncate sm:block">{{ auth()->user()->name }}</span>
-                        </button>
-                        <div x-show="open" x-cloak x-transition
-                             class="absolute right-0 mt-2 w-48 rounded-2xl border border-line bg-surface p-2 shadow-soft">
-                            <a href="{{ $settingsUrl }}" class="block rounded-xl px-3 py-2 text-sm font-medium hover:bg-canvas">{{ __('Settings') }}</a>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="block w-full rounded-xl px-3 py-2 text-left text-sm font-medium hover:bg-canvas">{{ __('Log out') }}</button>
-                            </form>
-                        </div>
-                    </div>
+                    <a href="{{ $to('shop') }}" aria-label="{{ __('My shop') }}"
+                       class="flex h-11 items-center gap-2 rounded-full border border-line bg-surface pl-1.5 pr-1.5 text-sm font-semibold transition hover:border-brand sm:pr-5">
+                        <span class="flex size-8 items-center justify-center rounded-full bg-sage text-xs font-bold text-forest">{{ auth()->user()->initials }}</span>
+                        <span class="hidden max-w-32 truncate sm:block">{{ auth()->user()->name }}</span>
+                    </a>
                 @else
                     <x-guest-actions />
                 @endauth
@@ -97,6 +85,16 @@
                         <span>{{ __($label) }}</span>
                     </a>
                 @endforeach
+
+                @auth
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-muted transition hover:bg-surface hover:text-brand">
+                            <x-icon name="logout" />
+                            <span>{{ __('Log out') }}</span>
+                        </button>
+                    </form>
+                @endauth
             </nav>
 
             <div class="rounded-3xl bg-forest p-5 text-cream">

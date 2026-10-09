@@ -64,6 +64,10 @@
                 <h2 class="font-display text-xl font-semibold">{{ __('Account') }}</h2>
                 <p class="mt-1 text-sm text-muted">{{ __('Until the full settings are ready, you can update your name, email, and password on the profile page.') }}</p>
                 <a href="{{ route('profile.edit') }}" class="mt-5 inline-flex rounded-full bg-forest px-5 py-2.5 text-sm font-bold text-white transition hover:bg-forest-dark">{{ __('Open profile') }}</a>
+                <form method="POST" action="{{ route('logout') }}" class="mt-3">
+                    @csrf
+                    <button type="submit" class="rounded-full border border-line px-5 py-2.5 text-sm font-bold transition hover:border-brand">{{ __('Log out') }}</button>
+                </form>
             @endguest
         </section>
     </div>
